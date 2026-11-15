@@ -1,0 +1,275 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --color-navy: #071428;
+  --color-navy-2: #0c2348;
+  --color-navy-3: #14356e;
+  --color-gold: #c9a227;
+  --color-gold-2: #e4c45a;
+  --color-gold-3: #8f7010;
+  --color-cream: #f6f1e6;
+  --color-ink: #12151c;
+  --color-muted: #5c6573;
+}
+
+:root {
+  color-scheme: light;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: #f7f5f1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
+}
+
+.gold-line {
+  height: 2px;
+  width: 72px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-2));
+}
+
+.logo-glow {
+  filter:
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 0 16px rgba(228, 196, 90, 0.5));
+}
+
+@layer components {
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: linear-gradient(180deg, #e8c547 0%, #c9a227 55%, #a88414 100%);
+    color: #071428;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    padding: 0.85rem 1.35rem;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(201, 162, 39, 0.28);
+    transition: transform 0.15s ease, filter 0.15s ease;
+  }
+
+  .btn-gold:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+  }
+
+  .btn-navy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--color-navy);
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    padding: 0.85rem 1.35rem;
+    border: 1px solid rgba(201, 162, 39, 0.45);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .btn-navy:hover {
+    background: var(--color-navy-2);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    padding: 0.85rem 1.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--color-gold);
+    color: var(--color-gold-2);
+  }
+}
+
+.field {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #d8d2c6;
+  color: var(--color-ink);
+  padding: 0.75rem 0.9rem;
+  border-radius: 2px;
+  font-size: 0.92rem;
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.18);
+}
+
+.hero-search .field {
+  background: #0b1c36;
+  border-color: rgba(201, 162, 39, 0.35);
+  color: #fff;
+}
+
+.hero-search .field option {
+  color: #12151c;
+}
+
+.hero-search .field::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.card-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 40px rgba(7, 20, 40, 0.16);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.price {
+  font-family: var(--font-display);
+  color: var(--color-navy);
+  font-weight: 700;
+}
+
+.wa-float {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 50;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 24px rgba(37, 211, 102, 0.4);
+}
+
+.wa-float:hover {
+  transform: scale(1.06);
+}
+
+.nav-link {
+  position: relative;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e8eef8;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 0;
+  height: 2px;
+  background: var(--color-gold);
+  transition: width 0.2s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: var(--color-gold-2);
+}
+
+.page-hero {
+  background:
+    linear-gradient(180deg, rgba(7, 20, 40, 0.86), rgba(7, 20, 40, 0.78)),
+    url("/cars/hero.jpg") center/cover no-repeat;
+}
+
+.compare-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  background: #071428;
+  color: #fff;
+  border-top: 2px solid var(--color-gold);
+}
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--color-gold-2);
+  line-height: 1;
+}
+
+input[type="range"] {
+  accent-color: var(--color-gold);
+}
