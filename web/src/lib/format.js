@@ -1,5 +1,11 @@
 import { SITE } from '../data/site'
 
+let usdKesRate = SITE.usdKes
+
+export const setUsdKes = (n) => {
+  usdKesRate = Number(n) || SITE.usdKes
+}
+
 export const formatKes = (n) =>
   `KES ${Number(n).toLocaleString('en-KE')}`
 
@@ -15,7 +21,7 @@ export const formatKm = (n) =>
 export const formatCc = (n) =>
   `${Number(n).toLocaleString('en-KE')} cc`
 
-export const usdToKes = (usd) => Math.round(usd * SITE.usdKes)
+export const usdToKes = (usd, rate = usdKesRate) => Math.round(usd * rate)
 
 export const carTitle = (car) =>
   `${car.year} ${car.make} ${car.model}`

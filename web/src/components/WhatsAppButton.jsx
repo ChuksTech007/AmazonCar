@@ -1,8 +1,9 @@
-import { WHATSAPP_URL } from '../data/site'
+import { useCatalog } from '../context/Catalog'
 import { useStore } from '../context/Store'
 
 export default function WhatsAppButton() {
   const { compare } = useStore()
+  const { WHATSAPP_URL } = useCatalog()
   return (
     <a
       className="wa-float"

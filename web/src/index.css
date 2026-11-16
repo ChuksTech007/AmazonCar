@@ -144,6 +144,36 @@
   }
 }
 
+.page-btn {
+  min-width: 2.35rem;
+  height: 2.35rem;
+  padding: 0 0.65rem;
+  border: 1px solid #d8d2c6;
+  background: #fff;
+  color: var(--color-navy);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.page-btn:hover:not(:disabled):not(.is-current) {
+  border-color: var(--color-gold);
+}
+
+.page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.page-btn.is-current {
+  background: var(--color-navy);
+  color: var(--color-gold-2);
+  border-color: var(--color-navy);
+}
+
 .field {
   width: 100%;
   background: #fff;
@@ -172,6 +202,15 @@
 
 .hero-search .field::placeholder {
   color: rgba(255, 255, 255, 0.55);
+}
+
+.frame-photo {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .card-hover {

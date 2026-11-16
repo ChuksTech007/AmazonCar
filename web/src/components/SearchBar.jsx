@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BODIES, FUELS, MAKES, MILEAGE_OPTIONS, PRICE_OPTIONS, SOURCES, TRANSMISSIONS, YEARS, modelsFor } from '../data/cars'
+import { useCatalog } from '../context/Catalog'
+import { MILEAGE_OPTIONS, PRICE_OPTIONS } from '../lib/catalogUtils'
 
 export default function SearchBar({ dark = false }) {
   const navigate = useNavigate()
+  const { makes, bodies, fuels, years, transmissions, sources, modelsFor } = useCatalog()
   const [q, setQ] = useState('')
   const [make, setMake] = useState('')
   const [model, setModel] = useState('')
@@ -17,7 +19,7 @@ export default function SearchBar({ dark = false }) {
   const [mileage, setMileage] = useState('')
   const [source, setSource] = useState('')
 
-  const models = useMemo(() => modelsFor(make), [make])
+  const models = useMemo(() => modelsFor(make), [make, modelsFor])
 
   const search = (e) => {
     e.preventDefault()
@@ -49,7 +51,7 @@ export default function SearchBar({ dark = false }) {
         />
         <select className="field md:col-span-4 lg:col-span-2" value={make} onChange={(e) => { setMake(e.target.value); setModel('') }}>
           <option value="">All makes</option>
-          {MAKES.map((m) => (
+          {makes.map((m) => (
             <option key={m}>{m}</option>
           ))}
         </select>
@@ -72,13 +74,13 @@ export default function SearchBar({ dark = false }) {
       <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
         <select className="field" value={year} onChange={(e) => setYear(e.target.value)}>
           <option value="">Year from</option>
-          {YEARS.map((y) => (
+          {years.map((y) => (
             <option key={y}>{y}</option>
           ))}
         </select>
         <select className="field" value={yearTo} onChange={(e) => setYearTo(e.target.value)}>
           <option value="">Year to</option>
-          {YEARS.map((y) => (
+          {years.map((y) => (
             <option key={y}>{y}</option>
           ))}
         </select>
@@ -90,19 +92,19 @@ export default function SearchBar({ dark = false }) {
         </select>
         <select className="field" value={gearbox} onChange={(e) => setGearbox(e.target.value)}>
           <option value="">Gearbox</option>
-          {TRANSMISSIONS.map((t) => (
+          {transmissions.map((t) => (
             <option key={t}>{t}</option>
           ))}
         </select>
         <select className="field" value={body} onChange={(e) => setBody(e.target.value)}>
           <option value="">Body style</option>
-          {BODIES.map((b) => (
+          {bodies.map((b) => (
             <option key={b}>{b}</option>
           ))}
         </select>
         <select className="field" value={fuel} onChange={(e) => setFuel(e.target.value)}>
           <option value="">Fuel</option>
-          {FUELS.map((f) => (
+          {fuels.map((f) => (
             <option key={f}>{f}</option>
           ))}
         </select>
@@ -114,7 +116,7 @@ export default function SearchBar({ dark = false }) {
         </select>
         <select className="field" value={source} onChange={(e) => setSource(e.target.value)}>
           <option value="">Japan or UK</option>
-          {SOURCES.map((s) => (
+          {sources.map((s) => (
             <option key={s}>{s}</option>
           ))}
         </select>

@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import CarCard from '../components/CarCard'
-import { featuredCars, availableCount, BODIES, MAKES, CARS } from '../data/cars'
-import { SITE, TEL_URL, WHATSAPP_URL } from '../data/site'
+import { useCatalog } from '../context/Catalog'
 import { formatKes } from '../lib/format'
+import CruiseCard from '../components/CruiseCard'
+import Seo from '../components/Seo'
 
 const steps = [
   { n: '01', t: 'Choose or request', d: 'Browse live stock or tell us the make, year and budget. We source from Japan auctions and dealers.' },
@@ -20,23 +21,25 @@ const bodyCopy = {
 }
 
 export default function Home() {
-  const featured = featuredCars()
-  const lowest = Math.min(...CARS.filter((c) => c.status === 'available').map((c) => c.priceKes))
+  const { cars, featuredCars, featuredCruises, availableCount, bodies, makes, site, TEL_URL, WHATSAPP_URL } = useCatalog()
+  const featured = featuredCars
+  const available = cars.filter((c) => c.status === 'available')
+  const lowest = available.length ? Math.min(...available.map((c) => c.priceKes)) : 0
 
   return (
     <div>
+      <Seo path="/" />
       <section className="relative min-h-[calc(100svh-7.5rem)] overflow-hidden bg-navy">
         <img src="/cars/hero.jpg" alt="Amason luxury import" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy/92 via-navy/70 to-navy/25" />
         <div className="relative mx-auto flex min-h-[calc(100svh-7.5rem)] max-w-7xl flex-col justify-end px-4 py-10 sm:py-14">
-          <img src="/logo.png" alt="Amason Car Sales" className="logo-glow mb-5 h-auto w-56 self-start sm:w-72" />
           <p className="text-xs font-semibold tracking-[0.35em] text-gold-2 uppercase">Official importer · Kenya</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl leading-tight text-white sm:text-6xl">
-            {SITE.tagline}
-            <span className="block italic text-gold-2">{SITE.tagline2}</span>
+            {site.tagline}
+            <span className="block italic text-gold-2">{site.tagline2}</span>
           </h1>
           <p className="mt-5 max-w-xl text-lg text-white/75">
-            Japan (Goo-net) and UK (AutoTrader) stock, inspected at source, cleared at Mombasa and priced in {SITE.currency}. Call {SITE.phone}.
+            Japan (Goo-net) and UK (AutoTrader) stock, inspected at source, cleared at Mombasa and priced in {site.currency}. Call {site.phone}.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/stock" className="btn-gold">
@@ -46,7 +49,7 @@ export default function Home() {
               WhatsApp sales
             </a>
             <a href={TEL_URL} className="btn-ghost hidden sm:inline-flex">
-              {SITE.phone}
+              {site.phone}
             </a>
           </div>
           <div className="mt-10 max-w-5xl">
@@ -58,8 +61,8 @@ export default function Home() {
       <section className="bg-navy-2 text-white">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-4">
           {[
-            [availableCount(), 'Vehicles in stock'],
-            [formatKes(lowest), 'Stock from'],
+            [availableCount, 'Vehicles in stock'],
+            [lowest ? formatKes(lowest) : '—', 'Stock from'],
             ['4–6 wks', 'Japan to Mombasa'],
             ['Door-to-door', 'Anywhere in Kenya'],
           ].map(([n, l]) => (
@@ -89,12 +92,35 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="bg-navy py-16 text-white">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.28em] text-gold-2 uppercase">Amason Travel</p>
+              <h2 className="mt-2 font-display text-4xl">Cruise itineraries</h2>
+              <p className="mt-3 max-w-2xl text-white/70">
+                From Nairobi and Mombasa, and from world ports, into Thailand, Bali, the USA, South Africa and Zanzibar.
+                Quoted in KES.
+              </p>
+            </div>
+            <Link to="/cruises" className="btn-gold">
+              View cruises
+            </Link>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {(featuredCruises || []).slice(0, 3).map((cruise) => (
+              <CruiseCard key={cruise.slug} cruise={cruise} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-cream py-16">
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="font-display text-4xl text-navy">Shop by body style</h2>
           <div className="gold-line mt-4" />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {BODIES.map((b) => (
+            {bodies.map((b) => (
               <Link
                 key={b}
                 to={`/stock?body=${encodeURIComponent(b)}`}
@@ -108,7 +134,7 @@ export default function Home() {
           </div>
           <h3 className="mt-14 font-display text-2xl text-navy">Shop by make</h3>
           <div className="mt-5 flex flex-wrap gap-2">
-            {MAKES.map((m) => (
+            {makes.map((m) => (
               <Link
                 key={m}
                 to={`/stock?make=${encodeURIComponent(m)}`}
@@ -152,7 +178,7 @@ export default function Home() {
               <li>— Auction sheets and export certificates shared before shipping</li>
               <li>— Transparent CIF Mombasa + estimated KRA duty</li>
               <li>— Clearing at Mombasa and NTSA inspection support</li>
-              <li>— Nationwide door delivery from {SITE.city}</li>
+              <li>— Nationwide door delivery from {site.city}</li>
             </ul>
             <Link to="/about" className="btn-gold mt-8">
               About the company
@@ -161,7 +187,7 @@ export default function Home() {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               ['Cash on invoice', 'Payment within 7 days of the proforma. No rent-to-own, no fake zero-deposit ads.'],
-              ['WhatsApp-first sales', `${SITE.phone} — talk to a person, send a chassis number, get a KES figure.`],
+              ['WhatsApp-first sales', `${site.phone} — talk to a person, send a chassis number, get a KES figure.`],
               ['Family + luxury', 'From Premio to 7 Series. One importer for the whole driveway.'],
               ['After-sales path', 'We remain on the line after the car is at your gate.'],
             ].map(([t, d]) => (

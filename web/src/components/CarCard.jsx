@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { formatKes, formatKm, carTitle } from '../lib/format'
+import { mediaUrl } from '../lib/media'
 import { useStore } from '../context/Store'
 
 const statusLabel = {
@@ -18,9 +19,9 @@ export default function CarCard({ car }) {
       <div className="relative">
         <Link to={`/stock/${car.slug}`} className="block overflow-hidden">
           <img
-            src={car.image}
+            src={mediaUrl(car.image, 800)}
             alt={carTitle(car)}
-            className="h-52 w-full bg-navy object-cover transition duration-500 group-hover:scale-105"
+            className="frame-photo bg-navy transition duration-500 group-hover:scale-105"
           />
         </Link>
         <div className="absolute top-3 left-3 flex flex-wrap gap-1">

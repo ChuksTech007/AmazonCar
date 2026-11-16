@@ -2,24 +2,18 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import PageHero from '../components/PageHero'
 import CarCard from '../components/CarCard'
-import {
-  BODIES,
-  CARS,
-  FUELS,
-  MAKES,
-  MILEAGE_OPTIONS,
-  PRICE_OPTIONS,
-  SOURCES,
-  TRANSMISSIONS,
-  YEARS,
-  modelsFor,
-} from '../data/cars'
+import { useCatalog } from '../context/Catalog'
 import { useStore } from '../context/Store'
+import { MILEAGE_OPTIONS, PRICE_OPTIONS } from '../lib/catalogUtils'
 import { formatKes, carTitle, formatKm, formatCc } from '../lib/format'
+import Seo from '../components/Seo'
+import Pagination from '../components/Pagination'
+import { paginate } from '../lib/paginate'
 
 export default function Stock() {
   const [params, setParams] = useSearchParams()
   const { compareCars, clearCompare } = useStore()
+  const { cars, makes, bodies, fuels, years, transmissions, sources, modelsFor } = useCatalog()
   const showCompare = params.get('compare') === '1' && compareCars.length > 0
 
   const [sort, setSort] = useState('featured')
@@ -42,15 +36,16 @@ export default function Stock() {
     else next.delete(key)
     if (key === 'make') next.delete('model')
     next.delete('compare')
+    if (key !== 'page') next.delete('page')
     setParams(next)
   }
 
   const reset = () => setParams({})
 
-  const models = useMemo(() => modelsFor(make), [make])
+  const models = useMemo(() => modelsFor(make), [make, modelsFor])
 
   const list = useMemo(() => {
-    let rows = CARS.filter((c) => {
+    let rows = cars.filter((c) => {
       if (make && c.make !== make) return false
       if (model && c.model !== model) return false
       if (year && c.year < Number(year)) return false
@@ -74,10 +69,18 @@ export default function Stock() {
     if (sort === 'km') rows = [...rows].sort((a, b) => a.mileage - b.mileage)
     if (sort === 'featured') rows = [...rows].sort((a, b) => Number(b.featured) - Number(a.featured))
     return rows
-  }, [make, model, year, yearTo, body, fuel, gearbox, source, min, max, mileage, q, sort])
+  }, [cars, make, model, year, yearTo, body, fuel, gearbox, source, min, max, mileage, q, sort])
+
+  const page = Number(params.get('page') || 1) || 1
+  const paged = paginate(list, page, 9)
+  const goPage = (n) => {
+    set('page', n <= 1 ? '' : String(n))
+    document.getElementById('stock-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   return (
     <div>
+      <Seo title="Current stock" description="Japan and UK vehicles for import to Kenya. Estimated landed prices in KES." path="/stock" />
       <PageHero
         kicker="Inventory"
         title="Current stock"
@@ -136,14 +139,14 @@ export default function Stock() {
           <label className="mb-1 block text-xs font-semibold tracking-widest uppercase">Keyword</label>
           <input className="field mb-4" value={q} onChange={(e) => set('q', e.target.value)} placeholder="Make, model, stock no." />
           {[
-            ['make', 'Make', make, MAKES],
+            ['make', 'Make', make, makes],
             ['model', 'Model', model, models],
-            ['year', 'Year from', year, YEARS],
-            ['yearTo', 'Year to', yearTo, YEARS],
-            ['body', 'Body', body, BODIES],
-            ['fuel', 'Fuel', fuel, FUELS],
-            ['gearbox', 'Gearbox', gearbox, TRANSMISSIONS],
-            ['source', 'Source', source, SOURCES],
+            ['year', 'Year from', year, years],
+            ['yearTo', 'Year to', yearTo, years],
+            ['body', 'Body', body, bodies],
+            ['fuel', 'Fuel', fuel, fuels],
+            ['gearbox', 'Gearbox', gearbox, transmissions],
+            ['source', 'Source', source, sources],
           ].map(([key, label, value, options]) => (
             <div key={key} className="mb-4">
               <label className="mb-1 block text-xs font-semibold tracking-widest uppercase">{label}</label>
@@ -181,12 +184,19 @@ export default function Stock() {
           </button>
         </aside>
 
-        <div>
+        <div id="stock-results">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-muted">
               <strong className="text-navy">{list.length}</strong> vehicles matching
             </p>
-            <select className="field max-w-48" value={sort} onChange={(e) => setSort(e.target.value)}>
+            <select
+              className="field max-w-48"
+              value={sort}
+              onChange={(e) => {
+                setSort(e.target.value)
+                set('page', '')
+              }}
+            >
               <option value="featured">Sort: Featured</option>
               <option value="price-asc">Price: low to high</option>
               <option value="price-desc">Price: high to low</option>
@@ -200,11 +210,22 @@ export default function Stock() {
               <p className="mt-2 text-sm text-muted">Reset the filters or request a car from Japan or the UK.</p>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {list.map((car) => (
-                <CarCard key={car.slug} car={car} />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                {paged.slice.map((car) => (
+                  <CarCard key={car.slug} car={car} />
+                ))}
+              </div>
+              <Pagination
+                page={paged.page}
+                pages={paged.pages}
+                total={paged.total}
+                from={paged.from}
+                to={paged.to}
+                onPage={goPage}
+                noun="vehicles"
+              />
+            </>
           )}
         </div>
       </section>

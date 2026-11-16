@@ -1,10 +1,13 @@
 import PageHero from '../components/PageHero'
 import EnquiryForm from '../components/EnquiryForm'
-import { SITE, TEL_URL, WHATSAPP_URL } from '../data/site'
+import { useCatalog } from '../context/Catalog'
+import Seo from '../components/Seo'
 
 export default function Contact() {
+  const { site, TEL_URL, WHATSAPP_URL } = useCatalog()
   return (
     <div>
+      <Seo title="Contact" path="/contact" />
       <PageHero
         kicker="Contact"
         title="Talk to Amason"
@@ -15,20 +18,20 @@ export default function Contact() {
           <h2 className="font-display text-3xl text-navy">Sales desk</h2>
           <div className="gold-line mt-4 mb-6" />
           <a href={TEL_URL} className="block font-display text-4xl text-navy">
-            {SITE.phone}
+            {site.phone}
           </a>
           <a href={WHATSAPP_URL()} className="mt-2 block text-gold-3" target="_blank" rel="noreferrer">
-            WhatsApp {SITE.phone}
+            WhatsApp {site.phone}
           </a>
-          <a href={`mailto:${SITE.email}`} className="mt-2 block text-muted">
-            {SITE.email}
+          <a href={`mailto:${site.email}`} className="mt-2 block text-muted">
+            {site.email}
           </a>
           <p className="mt-6 text-sm text-muted">
-            {SITE.city}, Kenya
+            {site.city}, Kenya
             <br />
-            Vehicles clear at {SITE.port} Port
+            Vehicles clear at {site.port} Port
             <br />
-            {SITE.hours}
+            {site.hours}
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             <div className="rounded-sm bg-navy p-5 text-white">

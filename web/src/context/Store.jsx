@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { CARS } from '../data/cars'
+import { useCatalog } from './Catalog'
 
 const StoreContext = createContext(null)
 
 export function StoreProvider({ children }) {
+  const { cars } = useCatalog()
   const [compare, setCompare] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('amason-compare') || '[]')
@@ -29,7 +30,7 @@ export function StoreProvider({ children }) {
   }, [saved])
 
   const value = useMemo(() => {
-    const compareCars = compare.map((slug) => CARS.find((c) => c.slug === slug)).filter(Boolean)
+    const compareCars = compare.map((slug) => cars.find((c) => c.slug === slug)).filter(Boolean)
 
     const toggleCompare = (slug) => {
       setCompare((prev) => {
@@ -53,7 +54,7 @@ export function StoreProvider({ children }) {
       menuOpen,
       setMenuOpen,
     }
-  }, [compare, saved, menuOpen])
+  }, [compare, saved, menuOpen, cars])
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
 }

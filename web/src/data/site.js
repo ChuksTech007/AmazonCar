@@ -25,6 +25,7 @@ export const TEL_URL = `tel:+${SITE.phoneRaw}`
 export const NAV = [
   { to: '/', label: 'Home' },
   { to: '/stock', label: 'Stock' },
+  { to: '/cruises', label: 'Cruises' },
   { to: '/import', label: 'How to Import' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },

@@ -11,6 +11,9 @@ import ImportGuide from './pages/ImportGuide'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Enquire from './pages/Enquire'
+import Cruises from './pages/Cruises'
+import CruiseDetail from './pages/CruiseDetail'
+import AdminApp from './admin/AdminApp'
 
 function ScrollTop() {
   const { pathname } = useLocation()
@@ -20,7 +23,7 @@ function ScrollTop() {
   return null
 }
 
-export default function App() {
+function PublicSite() {
   return (
     <div className="min-h-screen bg-[#f7f5f1]">
       <ScrollTop />
@@ -34,6 +37,8 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/enquire" element={<Enquire />} />
+          <Route path="/cruises" element={<Cruises />} />
+          <Route path="/cruises/:slug" element={<CruiseDetail />} />
         </Routes>
       </main>
       <Footer />
@@ -41,4 +46,10 @@ export default function App() {
       <WhatsAppButton />
     </div>
   )
+}
+
+export default function App() {
+  const { pathname } = useLocation()
+  if (pathname.startsWith('/admin')) return <AdminApp />
+  return <PublicSite />
 }

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import PageHero from '../components/PageHero'
-import { SITE } from '../data/site'
+import { useCatalog } from '../context/Catalog'
+import DutyBreakdown from '../components/DutyBreakdown'
+import Seo from '../components/Seo'
 
 const steps = [
   {
@@ -37,8 +39,14 @@ const rules = [
 ]
 
 export default function ImportGuide() {
+  const { site } = useCatalog()
   return (
     <div>
+      <Seo
+        title="How to import"
+        description="Japan to Kenya import process, 8-year rule, and a KES duty breakdown: CIF, CRSP, import duty, excise, VAT, IDF and RDL."
+        path="/import"
+      />
       <PageHero
         kicker="How to import"
         title="From Japan to your gate"
@@ -67,7 +75,7 @@ export default function ImportGuide() {
           <div className="rounded-sm bg-cream p-6">
             <h3 className="font-display text-2xl text-navy">What you pay</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Vehicle (CIF Mombasa) + estimated duty stack + port + carrier to your city. Quoted in {SITE.currency}. USD is shown only as the CIF reference rate ({SITE.usdKes} KES per USD on this site).
+              Vehicle (CIF Mombasa) + estimated duty stack + port + carrier to your city. Quoted in {site.currency}. USD is shown only as the CIF reference rate ({site.usdKes} KES per USD on this site).
             </p>
           </div>
           <div className="rounded-sm bg-cream p-6">
@@ -76,6 +84,10 @@ export default function ImportGuide() {
               We are not affiliated with rent-to-own, zero-deposit or “pay monthly from Japan” adverts circulating in Kenya. Official terms: cash on invoice, then we ship.
             </p>
           </div>
+        </div>
+
+        <div className="mt-12">
+          <DutyBreakdown />
         </div>
 
         <div className="mt-10 flex flex-wrap gap-3">

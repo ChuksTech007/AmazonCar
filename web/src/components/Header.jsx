@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { NAV, SITE, TEL_URL, WHATSAPP_URL } from '../data/site'
+import { NAV } from '../data/site'
+import { useCatalog } from '../context/Catalog'
 import { useStore } from '../context/Store'
 
 export default function Header() {
   const { menuOpen, setMenuOpen, compare } = useStore()
+  const { site, TEL_URL, WHATSAPP_URL } = useCatalog()
   const [searchOpen, setSearchOpen] = useState(false)
   const [q, setQ] = useState('')
   const navigate = useNavigate()
@@ -27,12 +29,12 @@ export default function Header() {
       <div className="bg-navy text-gold-2 text-[12px] tracking-wide">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2">
           <p className="hidden sm:block">
-            {SITE.tagline} <span className="text-white/80">{SITE.tagline2}</span>
+            {site.tagline} <span className="text-white/80">{site.tagline2}</span>
           </p>
           <p className="min-w-0 truncate sm:hidden">Priced in Kenyan Shillings · Door delivery</p>
           <div className="flex shrink-0 items-center gap-4 font-semibold">
             <a href={TEL_URL} className="hidden hover:text-white sm:inline">
-              {SITE.phone}
+              {site.phone}
             </a>
             <a href={WHATSAPP_URL()} className="hidden sm:inline hover:text-white" target="_blank" rel="noreferrer">
               WhatsApp
@@ -47,7 +49,7 @@ export default function Header() {
             <img src="/logo.png" alt="Amason Car Sales" className="logo-glow h-[72px] w-auto object-contain object-left sm:h-[108px]" />
           </Link>
 
-          <nav className="hidden items-center justify-center gap-7 lg:flex">
+          <nav className="hidden items-center justify-center gap-5 lg:flex">
             {NAV.map((item) => (
               <NavLink
                 key={item.to}
