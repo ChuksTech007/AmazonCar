@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useCatalog } from '../context/Catalog'
+import Reveal from './Reveal'
 
 export default function Footer() {
   const { site, makes, TEL_URL, WHATSAPP_URL } = useCatalog()
   return (
     <footer className="bg-navy text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">
+      <Reveal className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4">
         <div>
           <img src="/logo.png" alt="Amason Car Sales" className="logo-glow mb-4 h-28 w-auto" />
           <p className="text-sm leading-relaxed text-white/70">
@@ -51,7 +52,7 @@ export default function Footer() {
           </a>
           <p className="mt-3 text-xs text-white/50">{site.hours}</p>
         </div>
-      </div>
+      </Reveal>
       <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">
         © {new Date().getFullYear()} {site.name}. All prices in {site.currency}. CIF Mombasa plus estimated Kenya duty.
       </div>

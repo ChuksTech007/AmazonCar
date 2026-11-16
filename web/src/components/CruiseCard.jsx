@@ -4,9 +4,9 @@ import { mediaUrl } from '../lib/media'
 
 export default function CruiseCard({ cruise }) {
   return (
-    <article className="card-hover overflow-hidden rounded-sm bg-white shadow-[0_8px_24px_rgba(7,20,40,0.08)]">
+    <article className="card-hover group overflow-hidden rounded-sm bg-white shadow-[0_8px_24px_rgba(7,20,40,0.08)]">
       <Link to={`/cruises/${cruise.slug}`} className="block overflow-hidden">
-        <img src={mediaUrl(cruise.image, 800)} alt={cruise.title} className="frame-photo bg-navy" />
+        <img src={mediaUrl(cruise.image, 800)} alt={cruise.title} className="frame-photo bg-navy transition duration-700 group-hover:scale-105" />
       </Link>
       <div className="p-4">
         <p className="text-[11px] font-semibold tracking-[0.18em] text-gold-3 uppercase">

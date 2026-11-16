@@ -4,6 +4,7 @@ import CruiseCard from '../components/CruiseCard'
 import Seo from '../components/Seo'
 import Pagination from '../components/Pagination'
 import { paginate } from '../lib/paginate'
+import Reveal from '../components/Reveal'
 import { useCatalog } from '../context/Catalog'
 
 export default function Cruises() {
@@ -47,8 +48,10 @@ export default function Cruises() {
           ))}
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {paged.slice.map((cruise) => (
-            <CruiseCard key={cruise.slug} cruise={cruise} />
+          {paged.slice.map((cruise, i) => (
+            <Reveal key={cruise.slug} delay={i * 80}>
+              <CruiseCard cruise={cruise} />
+            </Reveal>
           ))}
         </div>
         <Pagination

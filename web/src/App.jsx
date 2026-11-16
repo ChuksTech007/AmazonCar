@@ -24,11 +24,12 @@ function ScrollTop() {
 }
 
 function PublicSite() {
+  const { pathname } = useLocation()
   return (
     <div className="min-h-screen bg-[#f7f5f1]">
       <ScrollTop />
       <Header />
-      <main>
+      <main className="page-enter" key={pathname}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/stock" element={<Stock />} />

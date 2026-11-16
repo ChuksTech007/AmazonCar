@@ -5,6 +5,7 @@ import { useCatalog } from '../context/Catalog'
 import { formatKes } from '../lib/format'
 import CruiseCard from '../components/CruiseCard'
 import Seo from '../components/Seo'
+import Reveal from '../components/Reveal'
 
 const steps = [
   { n: '01', t: 'Choose or request', d: 'Browse live stock or tell us the make, year and budget. We source from Japan auctions and dealers.' },
@@ -30,9 +31,9 @@ export default function Home() {
     <div>
       <Seo path="/" />
       <section className="relative min-h-[calc(100svh-7.5rem)] overflow-hidden bg-navy">
-        <img src="/cars/hero.jpg" alt="Amason luxury import" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/cars/hero.jpg" alt="Amason luxury import" className="hero-kenburns absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy/92 via-navy/70 to-navy/25" />
-        <div className="relative mx-auto flex min-h-[calc(100svh-7.5rem)] max-w-7xl flex-col justify-end px-4 py-10 sm:py-14">
+        <div className="hero-copy relative mx-auto flex min-h-[calc(100svh-7.5rem)] max-w-7xl flex-col justify-end px-4 py-10 sm:py-14">
           <p className="text-xs font-semibold tracking-[0.35em] text-gold-2 uppercase">Official importer · Kenya</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl leading-tight text-white sm:text-6xl">
             {site.tagline}
@@ -65,17 +66,17 @@ export default function Home() {
             [lowest ? formatKes(lowest) : '—', 'Stock from'],
             ['4–6 wks', 'Japan to Mombasa'],
             ['Door-to-door', 'Anywhere in Kenya'],
-          ].map(([n, l]) => (
-            <div key={l}>
+          ].map(([n, l], i) => (
+            <Reveal key={l} delay={i * 90}>
               <p className="stat-num text-2xl sm:text-3xl">{n}</p>
               <p className="mt-2 text-sm text-white/60">{l}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <Reveal className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold tracking-[0.28em] text-gold-3 uppercase">Approved stock</p>
             <h2 className="mt-2 font-display text-4xl text-navy">Featured vehicles</h2>
@@ -84,17 +85,19 @@ export default function Home() {
           <Link to="/stock" className="btn-navy">
             View all stock
           </Link>
-        </div>
+        </Reveal>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((car) => (
-            <CarCard key={car.slug} car={car} />
+          {featured.map((car, i) => (
+            <Reveal key={car.slug} delay={i * 90}>
+              <CarCard car={car} />
+            </Reveal>
           ))}
         </div>
       </section>
 
       <section className="bg-navy py-16 text-white">
         <div className="mx-auto max-w-7xl px-4">
-          <div className="flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold tracking-[0.28em] text-gold-2 uppercase">Amason Travel</p>
               <h2 className="mt-2 font-display text-4xl">Cruise itineraries</h2>
@@ -106,10 +109,12 @@ export default function Home() {
             <Link to="/cruises" className="btn-gold">
               View cruises
             </Link>
-          </div>
+          </Reveal>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {(featuredCruises || []).slice(0, 3).map((cruise) => (
-              <CruiseCard key={cruise.slug} cruise={cruise} />
+            {(featuredCruises || []).slice(0, 3).map((cruise, i) => (
+              <Reveal key={cruise.slug} delay={i * 90}>
+                <CruiseCard cruise={cruise} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -117,19 +122,22 @@ export default function Home() {
 
       <section className="bg-cream py-16">
         <div className="mx-auto max-w-7xl px-4">
-          <h2 className="font-display text-4xl text-navy">Shop by body style</h2>
-          <div className="gold-line mt-4" />
+          <Reveal>
+            <h2 className="font-display text-4xl text-navy">Shop by body style</h2>
+            <div className="gold-line mt-4" />
+          </Reveal>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {bodies.map((b) => (
-              <Link
-                key={b}
-                to={`/stock?body=${encodeURIComponent(b)}`}
-                className="card-hover rounded-sm bg-navy p-6 text-white"
-              >
-                <p className="font-display text-2xl">{b}</p>
-                <p className="mt-2 text-sm text-white/60">{bodyCopy[b] || 'View stock'}</p>
-                <p className="mt-6 text-xs font-bold tracking-widest text-gold-2 uppercase">Explore →</p>
-              </Link>
+            {bodies.map((b, i) => (
+              <Reveal key={b} delay={i * 80}>
+                <Link
+                  to={`/stock?body=${encodeURIComponent(b)}`}
+                  className="card-hover block rounded-sm bg-navy p-6 text-white"
+                >
+                  <p className="font-display text-2xl">{b}</p>
+                  <p className="mt-2 text-sm text-white/60">{bodyCopy[b] || 'View stock'}</p>
+                  <p className="mt-6 text-xs font-bold tracking-widest text-gold-2 uppercase">Explore →</p>
+                </Link>
+              </Reveal>
             ))}
           </div>
           <h3 className="mt-14 font-display text-2xl text-navy">Shop by make</h3>
@@ -148,16 +156,18 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16">
-        <p className="text-xs font-semibold tracking-[0.28em] text-gold-3 uppercase">How it works</p>
-        <h2 className="mt-2 font-display text-4xl text-navy">Import with us in four steps</h2>
-        <div className="gold-line mt-4" />
+        <Reveal>
+          <p className="text-xs font-semibold tracking-[0.28em] text-gold-3 uppercase">How it works</p>
+          <h2 className="mt-2 font-display text-4xl text-navy">Import with us in four steps</h2>
+          <div className="gold-line mt-4" />
+        </Reveal>
         <div className="mt-10 grid gap-6 md:grid-cols-4">
-          {steps.map((s) => (
-            <div key={s.n} className="rounded-sm border border-navy/10 bg-white p-6">
+          {steps.map((s, i) => (
+            <Reveal key={s.n} delay={i * 90} className="rounded-sm border border-navy/10 bg-white p-6">
               <p className="font-display text-3xl text-gold">{s.n}</p>
               <h3 className="mt-3 font-display text-xl text-navy">{s.t}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{s.d}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
         <Link to="/import" className="btn-gold mt-8">
@@ -168,7 +178,7 @@ export default function Home() {
       <section className="relative overflow-hidden bg-navy py-16 text-white">
         <img src="/stock/lc300/01.jpg" alt="" className="absolute inset-0 h-full w-full object-cover opacity-20" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 md:grid-cols-2">
-          <div>
+          <Reveal>
             <p className="text-xs font-semibold tracking-[0.28em] text-gold-2 uppercase">Why Amason</p>
             <h2 className="mt-2 font-display text-4xl">A Kenyan importer with Japan access</h2>
             <p className="mt-4 text-white/75">
@@ -183,18 +193,18 @@ export default function Home() {
             <Link to="/about" className="btn-gold mt-8">
               About the company
             </Link>
-          </div>
+          </Reveal>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               ['Cash on invoice', 'Payment within 7 days of the proforma. No rent-to-own, no fake zero-deposit ads.'],
               ['WhatsApp-first sales', `${site.phone} — talk to a person, send a chassis number, get a KES figure.`],
               ['Family + luxury', 'From Premio to 7 Series. One importer for the whole driveway.'],
               ['After-sales path', 'We remain on the line after the car is at your gate.'],
-            ].map(([t, d]) => (
-              <div key={t} className="rounded-sm bg-white/5 p-5 ring-1 ring-gold/30">
+            ].map(([t, d], i) => (
+              <Reveal key={t} delay={i * 80} className="rounded-sm bg-white/5 p-5 ring-1 ring-gold/30">
                 <h3 className="font-display text-lg text-gold-2">{t}</h3>
                 <p className="mt-2 text-sm text-white/70">{d}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -202,18 +212,22 @@ export default function Home() {
 
       <section className="bg-cream py-16">
         <div className="mx-auto max-w-7xl px-4">
-          <h2 className="font-display text-4xl text-navy">Clients across Kenya</h2>
-          <div className="gold-line mt-4" />
+          <Reveal>
+            <h2 className="font-display text-4xl text-navy">Clients across Kenya</h2>
+            <div className="gold-line mt-4" />
+          </Reveal>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
               ['James, Westlands', 'Imported a 2022 Prado TX-L. Quote was in KES, landed figure matched, and they delivered to the house in 6 weeks.'],
               ['Amina, Mombasa', 'Wanted an Alphard for family trips. Amason sourced a black 2020, sent the auction sheet, and cleared it locally.'],
               ['David, Eldoret', 'Hilux double cab for the farm. WhatsApp updates from Japan to the gate. No surprises on duty.'],
-            ].map(([n, q]) => (
-              <blockquote key={n} className="rounded-sm bg-white p-6 shadow-sm">
-                <p className="text-sm leading-relaxed text-muted">“{q}”</p>
-                <footer className="mt-4 text-sm font-semibold text-navy">{n}</footer>
-              </blockquote>
+            ].map(([n, q], i) => (
+              <Reveal key={n} delay={i * 90}>
+                <blockquote className="rounded-sm bg-white p-6 shadow-sm">
+                  <p className="text-sm leading-relaxed text-muted">“{q}”</p>
+                  <footer className="mt-4 text-sm font-semibold text-navy">{n}</footer>
+                </blockquote>
+              </Reveal>
             ))}
           </div>
         </div>

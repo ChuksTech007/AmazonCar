@@ -9,6 +9,7 @@ import { formatKes, carTitle, formatKm, formatCc } from '../lib/format'
 import Seo from '../components/Seo'
 import Pagination from '../components/Pagination'
 import { paginate } from '../lib/paginate'
+import Reveal from '../components/Reveal'
 
 export default function Stock() {
   const [params, setParams] = useSearchParams()
@@ -212,8 +213,10 @@ export default function Stock() {
           ) : (
             <>
               <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                {paged.slice.map((car) => (
-                  <CarCard key={car.slug} car={car} />
+                {paged.slice.map((car, i) => (
+                  <Reveal key={car.slug} delay={(i % 9) * 70}>
+                    <CarCard car={car} />
+                  </Reveal>
                 ))}
               </div>
               <Pagination

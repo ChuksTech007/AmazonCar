@@ -77,7 +77,7 @@ export default function CarDetail() {
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-10 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
           <div className="relative overflow-hidden rounded-sm bg-navy">
-            <img src={mediaUrl(photo, 1400)} alt={`${carFullTitle(car)} photo ${active + 1}`} className="frame-photo" />
+            <img key={photo} src={mediaUrl(photo, 1400)} alt={`${carFullTitle(car)} photo ${active + 1}`} className="frame-photo photo-fade" />
             {photos.length > 1 && (
               <>
                 <button

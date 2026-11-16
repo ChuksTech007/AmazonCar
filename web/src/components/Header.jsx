@@ -46,7 +46,7 @@ export default function Header() {
       <div className="border-b border-white/10 bg-navy-2/95 backdrop-blur">
         <div className="mx-auto grid w-full max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3">
           <Link to="/" className="min-w-0" onClick={() => setMenuOpen(false)}>
-            <img src="/logo.png" alt="Amason Car Sales" className="logo-glow h-[72px] w-auto object-contain object-left sm:h-[108px]" />
+            <img src="/logo.png" alt="Amason Car Sales" className="logo-glow h-[72px] w-auto object-contain object-left transition duration-300 hover:brightness-110 sm:h-[108px]" />
           </Link>
 
           <nav className="hidden items-center justify-center gap-5 lg:flex">
@@ -97,7 +97,7 @@ export default function Header() {
         </div>
 
         {searchOpen && (
-          <div className="border-t border-white/10 bg-navy px-4 py-4">
+          <div className="slide-down border-t border-white/10 bg-navy px-4 py-4">
             <form onSubmit={runSearch} className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row">
               <input
                 autoFocus
@@ -115,7 +115,7 @@ export default function Header() {
         )}
 
         {menuOpen && (
-          <div className="border-t border-white/10 bg-navy px-4 py-4 lg:hidden">
+          <div className="slide-down border-t border-white/10 bg-navy px-4 py-4 lg:hidden">
             <form onSubmit={runSearch} className="mb-4 flex gap-2">
               <input
                 className="field"

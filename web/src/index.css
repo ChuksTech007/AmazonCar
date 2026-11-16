@@ -65,6 +65,164 @@
   height: 2px;
   width: 72px;
   background: linear-gradient(90deg, var(--color-gold), var(--color-gold-2));
+  transform-origin: left;
+}
+
+.reveal.is-in .gold-line,
+.hero-copy .gold-line,
+.page-hero-copy .gold-line {
+  animation: line-draw 0.8s ease 0.2s both;
+}
+
+@keyframes line-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.page-enter {
+  animation: page-fade 0.5s ease both;
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-kenburns {
+  transform: scale(1);
+  animation: kenburns 22s ease-out forwards;
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(0, -1.5%, 0);
+  }
+}
+
+.hero-copy > * {
+  animation: fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-copy > *:nth-child(1) {
+  animation-delay: 0.08s;
+}
+.hero-copy > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.hero-copy > *:nth-child(3) {
+  animation-delay: 0.34s;
+}
+.hero-copy > *:nth-child(4) {
+  animation-delay: 0.48s;
+}
+.hero-copy > *:nth-child(5) {
+  animation-delay: 0.62s;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-hero-copy > * {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-hero-copy > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.page-hero-copy > *:nth-child(2) {
+  animation-delay: 0.16s;
+}
+.page-hero-copy > *:nth-child(3) {
+  animation-delay: 0.28s;
+}
+.page-hero-copy > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.slide-down {
+  animation: slide-down 0.28s ease both;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wa-pulse {
+  0%,
+  100% {
+    box-shadow: 0 10px 24px rgba(37, 211, 102, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 12px 28px rgba(37, 211, 102, 0.55),
+      0 0 0 12px rgba(37, 211, 102, 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero-kenburns,
+  .hero-copy > *,
+  .page-hero-copy > *,
+  .page-enter,
+  .slide-down,
+  .photo-fade,
+  .reveal.is-in .gold-line,
+  .hero-copy .gold-line,
+  .page-hero-copy .gold-line,
+  .wa-float {
+    animation: none !important;
+  }
 }
 
 .logo-glow {
@@ -94,9 +252,10 @@
     transition: transform 0.15s ease, filter 0.15s ease;
   }
 
-  .btn-gold:hover {
+    .btn-gold:hover {
     filter: brightness(1.06);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(201, 162, 39, 0.38);
   }
 
   .btn-navy {
@@ -114,11 +273,12 @@
     border: 1px solid rgba(201, 162, 39, 0.45);
     border-radius: 2px;
     cursor: pointer;
-    transition: background 0.15s ease;
+    transition: background 0.2s ease, transform 0.2s ease;
   }
 
   .btn-navy:hover {
     background: var(--color-navy-2);
+    transform: translateY(-2px);
   }
 
   .btn-ghost {
@@ -136,11 +296,13 @@
     border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 2px;
     cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
   }
 
   .btn-ghost:hover {
     border-color: var(--color-gold);
     color: var(--color-gold-2);
+    transform: translateY(-2px);
   }
 }
 
@@ -213,13 +375,26 @@
   display: block;
 }
 
+.photo-fade {
+  animation: photo-fade 0.45s ease both;
+}
+
+@keyframes photo-fade {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .card-hover {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
 }
 
 .card-hover:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 22px 40px rgba(7, 20, 40, 0.16);
+  transform: translateY(-8px);
+  box-shadow: 0 26px 48px rgba(7, 20, 40, 0.18);
 }
 
 .badge {
@@ -252,10 +427,13 @@
   display: grid;
   place-items: center;
   box-shadow: 0 10px 24px rgba(37, 211, 102, 0.4);
+  animation: wa-pulse 2.8s ease-in-out infinite;
+  transition: transform 0.2s ease;
 }
 
 .wa-float:hover {
-  transform: scale(1.06);
+  transform: scale(1.08);
+  animation: none;
 }
 
 .nav-link {
@@ -275,7 +453,7 @@
   width: 0;
   height: 2px;
   background: var(--color-gold);
-  transition: width 0.2s ease;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .nav-link:hover::after,
