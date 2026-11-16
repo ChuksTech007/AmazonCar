@@ -36,7 +36,7 @@ Vite + React + Express. Optional MongoDB (mongoose) and Cloudinary. Sharp resize
 
 ## Vercel
 
-Root Directory in the Vercel project must be **`web`**.
+Root Directory in the Vercel project must be **`web`**. Node.js version is **26.x** (`engines` in `package.json`).
 
 Do **not** set `PORT` on Vercel. Locally the API is `8787` and Vite is `5173`. On Vercel HTTPS is port 443.
 
